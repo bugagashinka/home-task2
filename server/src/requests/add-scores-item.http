@@ -1,0 +1,8 @@
+# Test request - REST Client VS Code extension 
+POST http://localhost:3000/scores
+Content-Type: application/json
+
+{
+  "name": "User",
+  "score": 100500
+}
