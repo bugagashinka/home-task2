@@ -1,0 +1,2 @@
+# Test request - REST Client VS Code extension 
+GET http://localhost:3000/scores
