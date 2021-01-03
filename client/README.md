@@ -35,7 +35,7 @@ Build development version
 
 #### `npm run build`
 
-Build production version
+Build production version and copy /dist files into server project folder ../server/public
 
 #### `npm run stats`
 
