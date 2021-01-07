@@ -3,7 +3,7 @@ const path = require("path");
 const mountRoutes = require("./routes");
 const cors = require("cors");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 9090;
 
 const app = express();
 app.use(cors());

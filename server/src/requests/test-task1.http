@@ -1,8 +1,8 @@
 # Test request - REST Client VS Code extension 
-POST http://localhost:9090/scores
+POST http://localhost:9090/api/tasks/nextIndex
 Content-Type: application/json
 
 {
-  "name": "User",
-  "score": 100500
+  "input1": 1,
+  "input2": 0
 }
