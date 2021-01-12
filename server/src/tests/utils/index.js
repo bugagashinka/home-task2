@@ -30,4 +30,5 @@ const sendPostRequest = async (payload, path = "/", url) => {
 
 module.exports = {
   sendPostRequest,
+  ApiError,
 };
