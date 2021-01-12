@@ -13,11 +13,6 @@ const getScores = () => {
   return scoreList.sort(sortScores).slice(0, SCORE_LIST_SIZE);
 };
 
-const missedDataResponse = (res, error) =>
-  res.status(422).json({
-    error,
-  });
-
 router
   .route("/")
   .get((req, res) => {
@@ -25,8 +20,8 @@ router
   })
   .post((req, res) => {
     const body = req.body;
-    if (!body.name) missedDataResponse(res, "'name' is missing");
-    if (!body.score) missedDataResponse(res, "'score' is missing");
+    if (!body.name) throw TypeError("'name' is missing");
+    if (!body.score) throw TypeError("'score' is missing");
 
     scoreList.push({ ...body, key: new Date().getTime() });
 
