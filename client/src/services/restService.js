@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = "http://localhost:9090/";
 const SCORES_ENDPOINT = "scores/";
 
 const CLIENT_ERROR_MIN_CODE = 400;
@@ -29,6 +29,9 @@ const makeRequest = async (url, method = "GET", payload) => {
         };
   try {
     const res = await fetch(url, config);
+    if (res.redirected) {
+      window.location.href = res.url;
+    }
     // Cases with 4xx/5xx status code
     if (!res.ok) {
       return errorHandler(res);
