@@ -1,13 +1,13 @@
-const home3Router = require("./home3");
-const gameRouter = require("./game");
-const sessionRouter = require("./session");
-const { notFoundHandler, clientErrorHandler, errorHandler } = require("../utils");
+const home3Router = require("./home3.router");
+const gameRouter = require("./game.router");
+const signInRouter = require("./sign-in.router");
+const { notFoundController, clientErrorController, errorController } = require("utils");
 
 module.exports = (app) => {
   app.use("/api/tasks/", home3Router);
-  app.use("/session", sessionRouter);
+  app.use("/session", signInRouter);
   app.use("/", gameRouter);
-  app.use("*", notFoundHandler);
-  app.use(clientErrorHandler);
-  app.use(errorHandler);
+  app.use("*", notFoundController);
+  app.use(clientErrorController);
+  app.use(errorController);
 };

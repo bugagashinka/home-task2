@@ -6,11 +6,11 @@ const invalidateAuth = (req, res) => {
   req.app.locals.activeUser = null;
 };
 
-const notFoundHandler = (req, res) => {
+const notFoundController = (req, res) => {
   res.status(404).send({ error: "Not Found" });
 };
 
-const clientErrorHandler = (error, req, res, next) => {
+const clientErrorController = (error, req, res, next) => {
   if (error instanceof TypeError) {
     res.status(422).send({ error: error.message });
     return;
@@ -18,7 +18,7 @@ const clientErrorHandler = (error, req, res, next) => {
   next(error);
 };
 
-const errorHandler = (error, req, res, next) => {
+const errorController = (error, req, res, next) => {
   if (error instanceof Error) {
     console.error(error);
     res.status(500).send({ error: "Internal Server Error" });
@@ -26,8 +26,8 @@ const errorHandler = (error, req, res, next) => {
 };
 
 module.exports = {
-  notFoundHandler,
-  clientErrorHandler,
-  errorHandler,
+  notFoundController,
+  clientErrorController,
+  errorController,
   invalidateAuth,
 };
