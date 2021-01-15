@@ -4,7 +4,7 @@ const router = express.Router();
 const { invalidateAuth } = require("utils");
 const { AUTH_COOKIE } = require("utils/consts");
 
-const securePaths = [/\//, /\/scores\/?/i];
+const securePaths = [/^\/$/, /\/scores\/?/i];
 
 const validateAccess = (req, res, next) => {
   if (!securePaths.some((mask) => req.path.match(mask))) return next();
