@@ -1,0 +1,10 @@
+# Test request - REST Client VS Code extension 
+POST http://localhost:9090/signup
+Content-Type: application/json
+
+{
+  "login": "esteban",
+  "name": "esteban",
+  "password": "12345678",
+  "confirm": "12345678"
+}

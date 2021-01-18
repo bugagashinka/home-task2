@@ -2,18 +2,17 @@ const express = require("express");
 const scoresRouter = require("./scores.router");
 const router = express.Router();
 const { invalidateAuth } = require("utils");
-const { AUTH_COOKIE } = require("utils/consts");
+const { session, gameConfig } = require("utils/consts");
+const { getUserBy } = require("services/usersService");
 
-const securePaths = [/^\/$/, /\/scores\/?/i];
+const validateAccess = async (req, res, next) => {
+  if (!gameConfig.PROTECTED_PATHS.some((mask) => req.path.match(mask))) return next();
 
-const validateAccess = (req, res, next) => {
-  if (!securePaths.some((mask) => req.path.match(mask))) return next();
-
-  if (req.cookies[AUTH_COOKIE] === "true" || req.app.locals.isAuth) {
+  const checkedUser = await getUserBy("_id", req.cookies[session.AUTH_COOKIE]);
+  if (checkedUser || req.app.locals.isAuth) {
     req.app.locals.isAuth = true;
     return next();
   }
-
   invalidateAuth(req, res);
   res.redirect("/session/login");
 };

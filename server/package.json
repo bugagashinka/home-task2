@@ -15,8 +15,13 @@
     "app-module-path": "^2.2.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "dotenv-expand": "^5.1.0",
     "express": "^4.17.1",
-    "express-handlebars": "^5.2.0"
+    "express-handlebars": "^5.2.0",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.11.12"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -24,10 +29,5 @@
     "got": "^11.8.1",
     "jest": "^26.6.3",
     "nodemon": "^2.0.6"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "scores.json"
-    ]
   }
 }

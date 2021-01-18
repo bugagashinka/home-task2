@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { invalidateAuth } = require("utils");
-const { getUser } = require("../services/usersService");
-const { AUTH_COOKIE, MAX_AGE_MS_COOKIE } = require("utils/consts");
+const { getUserBy } = require("../services/usersService");
+const {
+  session,
+  clientAlertTypes: { DANGER_ALERT },
+} = require("utils/consts");
+const { encryptPassword } = require("utils");
 
 // Sign-In, Logout Controllers
 
@@ -14,16 +18,28 @@ const getLoginController = (req, res) => {
   res.render("login", { title: "Sign-In" });
 };
 
-const postLoginController = (req, res) => {
+const postLoginController = async (req, res) => {
   const { login, password } = req.body;
-  const existedUser = getUser(login);
 
-  if (existedUser && password === existedUser.password) {
-    res.cookie(AUTH_COOKIE, "true", { maxAge: MAX_AGE_MS_COOKIE });
-    req.app.locals.activeUser = { name: login, bestScore: existedUser.bestScore };
-    return res.redirect("/");
-  }
-  res.render("login", { message: "Invalid credentials", title: "Sign-In" });
+  try {
+    const existedUser = await getUserBy("login", login);
+
+    if (existedUser) {
+      const [userPassword, salt] = existedUser.password.split(".");
+      const [checkedPassword] = encryptPassword(password, salt);
+
+      if (checkedPassword === userPassword) {
+        res.cookie(session.AUTH_COOKIE, existedUser._id, { maxAge: session.MAX_AGE_MS_COOKIE });
+        req.app.locals.activeUser = { name: login, bestScore: existedUser.bestScore };
+        return res.redirect("/");
+      }
+    }
+  } catch (error) {}
+
+  res.status(401).render("login", {
+    errors: [{ message: "Authorization error, invalid credentials", type: DANGER_ALERT }],
+    title: "Sign-In",
+  });
 };
 
 const logoutController = (req, res) => {
