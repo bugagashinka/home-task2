@@ -1,3 +1,7 @@
+require("app-module-path").addPath(__dirname);
+const dotenv = require("dotenv");
+const dotenvExpand = require("dotenv-expand");
+dotenvExpand(dotenv.config());
 const express = require("express");
 const path = require("path");
 const mountRoutes = require("./routes");
@@ -5,6 +9,7 @@ const cors = require("cors");
 const exphbs = require("express-handlebars");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+require("services/dbService");
 
 const PORT = process.env.PORT || 9090;
 
