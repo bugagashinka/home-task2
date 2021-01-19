@@ -247,11 +247,6 @@ import { addScores, getScores } from "./services/restService";
     modalWindow$ = $("#modal-window");
     modalScore$ = modalWindow$.find(".modal__score-value");
     alertElement$ = $("#alert");
-    alertElement$.on("close.bs.alert", function () {
-      alertElement$.hide();
-      return false;
-    });
-    alertElement$.hide();
 
     //  Window resize handler
     window.addEventListener("resize", windowResizeHandler);
