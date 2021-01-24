@@ -43,7 +43,7 @@ const validateSignUpForm = ({ login, name, password, confirm }) => {
     });
   }
   let isValid = !errors.length;
-  return [isValid, isValid ? [login, name, password, confirm] : errors];
+  return [isValid, isValid ? [login, name, password] : errors];
 };
 
 // Sign-Up Controllers

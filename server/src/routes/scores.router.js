@@ -22,7 +22,7 @@ const postScoresController = async (req, res, next) => {
     .then((bestScore) => {
       req.app.locals.activeUser = { name, bestScore };
     })
-    .catch()
+    .catch((err) => {})
     .finally(() => res.redirect("/"));
 };
 
