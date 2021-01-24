@@ -1,7 +1,11 @@
 module.exports = {
+  roles: {
+    ADMIN_ROLE: "admin",
+    USER_ROLE: "gamer",
+  },
   session: {
     AUTH_COOKIE: "isAuth",
-    MAX_AGE_MS_COOKIE: 15 * 60 * 1000,
+    MAX_AGE_MS_COOKIE: 12 * 3600 * 1000, // 12 hours
     SALT_LENGTH: 32,
   },
   database: {
@@ -27,5 +31,7 @@ module.exports = {
   gameConfig: {
     SCORE_LIST_SIZE: 10,
     PROTECTED_PATHS: [/^\/$/, /\/scores\/?/i],
+    ADMIN_PATHS: [/^\/admin\/?$/],
+    ROWS_PER_PAGE: 10,
   },
 };
