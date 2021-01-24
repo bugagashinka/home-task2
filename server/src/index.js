@@ -4,6 +4,7 @@ const dotenvExpand = require("dotenv-expand");
 dotenvExpand(dotenv.config());
 const express = require("express");
 const path = require("path");
+const hbsHelpers = require("views/helpers");
 const mountRoutes = require("./routes");
 const cors = require("cors");
 const exphbs = require("express-handlebars");
@@ -22,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(process.cwd(), "public")));
 
 // Set View Engine
-app.engine(".hbs", exphbs({ extname: ".hbs" }));
+app.engine(".hbs", exphbs({ extname: ".hbs", helpers: hbsHelpers }));
 app.set("view engine", ".hbs");
 app.set("views", path.join(__dirname, "views"));
 

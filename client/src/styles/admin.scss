@@ -1,0 +1,25 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
+
+.search-group {
+  margin: 20px 0;
+}
+
+[data-sort-index] {
+  cursor: pointer;
+  &::after {
+    position: relative;
+    left: 10px;
+    font-family: FontAwesome;
+    content: "\f0dc";
+  }
+}
+[data-sort-order="1"] {
+  &::after {
+    content: "\f0de";
+  }
+}
+[data-sort-order="-1"] {
+  &::after {
+    content: "\f0dd";
+  }
+}

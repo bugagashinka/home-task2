@@ -1,0 +1,49 @@
+<table id="users-table" class="table">
+    <thead class="table-head">
+        {{#with sorted as | sorted | }}
+        <tr>
+            {{#each ../tableHeads}}
+            <th {{attr "data-sort-order" this sorted }} data-sort-index={{inc @index 1}}>{{this}}</th>
+            {{/each}}
+        </tr>
+        {{/with}}
+    </thead>
+    <tbody>
+        {{#each tableRows}}
+        <tr>
+            {{#each ../tableHeads}}
+            <td>{{lookup .. this}}</td>
+            {{/each}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{#if pageCount}}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {{buttonState 'disabled' currPage 1}}">
+            <a class="page-link" href="?page=1&{{query}}">First</a>
+        </li>
+
+        {{#times pageCount}}
+
+        {{#when this 'in' ../buttonsIdx}}
+        <li class="page-item {{buttonState 'active' ../../currPage ../this}}">
+            <a class="page-link" href="?page={{../this}}&{{@root.query}}">{{../this}}</a>
+        </li>
+        {{/when}}
+
+        {{#when this 'in' ../dotsIdx}}
+        <li class="page-item">
+            <a class="page-link">...</a>
+        </li>
+        {{/when}}
+
+        {{/times}}
+
+        <li class="page-item {{buttonState 'disabled' currPage pageCount}}">
+            <a class="page-link" href="?page={{pageCount}}&{{query}}">Last</a>
+        </li>
+    </ul>
+</nav>
+{{/if}}

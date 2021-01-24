@@ -29,7 +29,7 @@ const postLoginController = async (req, res) => {
       const [checkedPassword] = encryptPassword(password, salt);
 
       if (checkedPassword === userPassword) {
-        res.cookie(session.AUTH_COOKIE, existedUser._id, { maxAge: session.MAX_AGE_MS_COOKIE });
+        res.cookie(session.AUTH_COOKIE, existedUser.id, { maxAge: session.MAX_AGE_MS_COOKIE });
         req.app.locals.activeUser = { name: login, bestScore: existedUser.bestScore };
         return res.redirect("/");
       }

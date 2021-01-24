@@ -1,6 +1,14 @@
 const BASE_URL = "http://localhost:9090/";
 const SCORES_ENDPOINT = "scores/";
-
+const TABLE_ENDPOINT = "admin/";
+const responseFormat = {
+  TEXT_FORMAT: "text",
+  JSON_FORMAT: "json",
+};
+const httpMethod = {
+  POST_METHOD: "POST",
+  GET_METHOD: "GET",
+};
 const CLIENT_ERROR_MIN_CODE = 400;
 const SERVER_ERROR_MAX_CODE = 599;
 const INTERNET_DISCONNECTED_ERROR = "No internet connection";
@@ -16,17 +24,20 @@ const errorHandler = async (response) => {
   return Promise.reject(error);
 };
 
-const makeRequest = async (url, method = "GET", payload) => {
-  const config =
-    method === "GET"
-      ? null
-      : {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
-          body: JSON.stringify(payload),
-        };
+const makeRequest = async ({
+  url,
+  method = httpMethod.GET_METHOD,
+  payload,
+  headers,
+  format = responseFormat.JSON_FORMAT,
+}) => {
+  const config = {
+    method,
+    headers: headers ?? {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: method == httpMethod.POST_METHOD ? JSON.stringify(payload) : null,
+  };
   try {
     const res = await fetch(url, config);
     if (res.redirected) {
@@ -36,7 +47,8 @@ const makeRequest = async (url, method = "GET", payload) => {
     if (!res.ok) {
       return errorHandler(res);
     }
-    return res.json();
+    if (format === responseFormat.JSON_FORMAT) return res.json();
+    if (format === responseFormat.TEXT_FORMAT) return res.text();
   } catch (e) {
     // internet connection case
     console.error(e);
@@ -46,14 +58,37 @@ const makeRequest = async (url, method = "GET", payload) => {
   }
 };
 
+const makeAsyncRequest = async ({ url }) => {
+  window.history.pushState(null, null, url);
+  return await makeRequest({
+    url,
+    format: responseFormat.TEXT_FORMAT,
+    headers: {
+      "X-Async-Request": "async/html",
+    },
+  });
+};
+
 const addScores = async (data) => {
   const url = `${BASE_URL}${SCORES_ENDPOINT}`;
-  return await makeRequest(url, "POST", data);
+  return await makeRequest({ url, method: httpMethod.POST_METHOD, payload: data });
 };
 
 const getScores = async () => {
   const url = `${BASE_URL}${SCORES_ENDPOINT}`;
-  return await makeRequest(url);
+  return await makeRequest({ url });
 };
 
-export { addScores, getScores };
+const searchBy = async (columnIdx, queryText) => {
+  const searchQuery = `?search=${columnIdx}:${queryText}`;
+  const url = `${BASE_URL}${TABLE_ENDPOINT}${searchQuery}`;
+  return await makeAsyncRequest({ url });
+};
+
+const sortBy = async (columnIdx, order) => {
+  const searchQuery = `?sort=${columnIdx * order}`;
+  const url = `${BASE_URL}${TABLE_ENDPOINT}${searchQuery}`;
+  return await makeAsyncRequest({ url });
+};
+
+export { addScores, getScores, searchBy, sortBy };
