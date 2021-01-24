@@ -11,4 +11,15 @@ const removeHashURI = () => {
 
 const getRandomColor = () => `rgb(${getRandom(0, 255)}, ${getRandom(0, 255)}, ${getRandom(0, 255)})`;
 
-export { getMagnitude, getRandom, removeHashURI, getRandomColor };
+const debounce = (func, ms = 200) => {
+  let isFreezed = false;
+  return function () {
+    if (isFreezed) return;
+
+    func.apply(this, arguments);
+    isFreezed = true;
+    setTimeout(() => (isFreezed = false), ms);
+  };
+};
+
+export { getMagnitude, getRandom, removeHashURI, getRandomColor, debounce };

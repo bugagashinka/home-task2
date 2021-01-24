@@ -6,7 +6,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsWebpackPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const WebpackShellPlugin = require("webpack-shell-plugin");
 
 const isDevelopment = process.env.NODE_ENV === "development";
 const isProduction = !isDevelopment;
@@ -25,7 +24,7 @@ const optimization = () => {
   return config;
 };
 
-const filename = (ext) => (isDevelopment ? `[name].${ext}` : `[name].[hash].${ext}`);
+const filename = (ext) => `[name].${ext}`;
 
 const cssLoaders = (extra) => {
   const loaders = [
@@ -96,7 +95,6 @@ const plugins = () => {
 
   if (isProduction) {
     base.push(new BundleAnalyzerPlugin());
-    base.push(new WebpackShellPlugin({ onBuildEnd: ["cp -i -R ./dist/* ../server/public"] }));
   }
 
   return base;
@@ -106,7 +104,7 @@ module.exports = {
   context: path.resolve(__dirname, "src"),
   mode: "development",
   entry: {
-    main: ["@babel/polyfill", "./index.js"],
+    main: ["@babel/polyfill", "./index.js", "./admin.js"],
   },
   output: {
     filename: filename("js"),

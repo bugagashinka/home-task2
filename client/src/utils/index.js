@@ -1,1 +1,1 @@
-export { getMagnitude, getRandom, removeHashURI, getRandomColor } from "./utils";
+export { getMagnitude, getRandom, removeHashURI, getRandomColor, debounce } from "./utils";
